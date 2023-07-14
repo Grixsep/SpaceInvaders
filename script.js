@@ -59,6 +59,7 @@ function drawRectangle(rect, color) {
 }
 
 function updateGame() {
+	ctx.fillStyle = '#000';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
    
     // Draw player
@@ -210,7 +211,7 @@ function updateGame() {
 window.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowRight') player.dx = player.speed;
     else if (e.key === 'ArrowLeft') player.dx = -player.speed;
-    else if (e.key === ' ') bullets.push({ x: player.x, y: player.y, width: 5, height: 15, dy: 10 });  // space bar to shoot
+	else if (e.key === ' ') bullets.push({ x: player.x + player.width / 2, y: player.y, width: 5, height: 15, dy: 10 });  // space bar to shoot
 });
 
 window.addEventListener('keyup', function(e) {
