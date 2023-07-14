@@ -217,7 +217,6 @@ window.addEventListener('keyup', function(e) {
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') player.dx = 0;
 });
 
-});
 
 function showGameOverScreen() {
     ctx.font = '50px Arial';
