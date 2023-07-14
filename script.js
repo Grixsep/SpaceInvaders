@@ -59,7 +59,6 @@ function drawRectangle(rect, color) {
 }
 
 function updateGame() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = '#000';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
     
@@ -193,6 +192,31 @@ function updateGame() {
         }
         eliminatedAliens = 0;
     }
+	
+	// Bomb collisions with shelters
+	bombs.forEach((bomb, i) => {
+		shelters.forEach((shelter, j) => {
+			if (bomb.x < shelter.x + shelter.width &&
+				bomb.x + bomb.width > shelter.x &&
+				bomb.y < shelter.y + shelter.height &&
+				bomb.y + bomb.height > shelter.y) {
+				// Add a hole to the shelter and remove the bomb
+				shelters[j].holes.push({x: bomb.x - shelter.x, y: bomb.y - shelter.y, radius: 20});
+				bombs.splice(i, 1);
+			}
+		});
+	});
+
+	// Draw shelters
+	shelters.forEach(shelter => {
+		drawRectangle(shelter, 'grey');
+		shelter.holes.forEach(hole => {
+			ctx.beginPath();
+			ctx.arc(shelter.x + hole.x, shelter.y + hole.y, hole.radius, 0, Math.PI*2, false);
+			ctx.fillStyle = 'black';
+			ctx.fill();
+		});
+	});
 
     // Increase alien speed by 10% every 30 seconds
     if (Date.now() - lastSpeedIncrease > 30000) {
@@ -247,30 +271,7 @@ if (Math.random() < 0.01 && aliens.length > 0) {
     bombs.push({ x: randomAlien.x, y: randomAlien.y, width: 10, height: 20, dy: 2 });
 }
 
-// Bomb collisions with shelters
-bombs.forEach((bomb, i) => {
-    shelters.forEach((shelter, j) => {
-        if (bomb.x < shelter.x + shelter.width &&
-            bomb.x + bomb.width > shelter.x &&
-            bomb.y < shelter.y + shelter.height &&
-            bomb.y + bomb.height > shelter.y) {
-            // Add a hole to the shelter and remove the bomb
-            shelters[j].holes.push({x: bomb.x - shelter.x, y: bomb.y - shelter.y, radius: 20});
-            bombs.splice(i, 1);
-        }
-    });
-});
 
-// Draw shelters
-shelters.forEach(shelter => {
-    drawRectangle(shelter, 'grey');
-    shelter.holes.forEach(hole => {
-        ctx.beginPath();
-        ctx.arc(shelter.x + hole.x, shelter.y + hole.y, hole.radius, 0, Math.PI*2, false);
-        ctx.fillStyle = 'black';
-        ctx.fill();
-    });
-});
 
 
 // Start the game
