@@ -59,8 +59,10 @@ function drawRectangle(rect, color) {
 }
 
 function updateGame() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = '#000';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
    
     // Draw player
     drawRectangle(player, 'green');
