@@ -64,22 +64,20 @@ function updateGame() {
     drawRectangle(player, 'green');
 
     // Update aliens
-    let rightmostAlien = Math.max(...aliens.map(alien => alien.x + alien.width));
-    let leftmostAlien = Math.min(...aliens.map(alien => alien.x));
+    // Update aliens
+	let rightmostAlien = Math.max(...aliens.map(alien => alien.x + alien.width));
+	let leftmostAlien = Math.min(...aliens.map(alien => alien.x));
 
-    aliens.forEach(alien => {
-		if (alienDirection === 1 && rightmostAlien + baseAlienSpeed > canvas.width) {
-			alienDirection = -1;
-			aliens.forEach(alien => alien.y += 10);
-		} else if (alienDirection === -1 && leftmostAlien - baseAlienSpeed < 0) {
+	if (alienDirection === 1 && rightmostAlien + baseAlienSpeed > canvas.width) {
+		alienDirection = -1;
+		aliens.forEach(alien => alien.y += 10);
+	} else if (alienDirection === -1 && leftmostAlien - baseAlienSpeed < 0) {
 		alienDirection = 1;
 		aliens.forEach(alien => alien.y += 10);
-        } else {
-            alien.x += baseAlienSpeed * alienDirection;
-        }
-		aliens.forEach(alien => alien.x += baseAlienSpeed * alienDirection);
-        drawRectangle(alien, 'red');
-    });
+	}
+	aliens.forEach(alien => alien.x += baseAlienSpeed * alienDirection);
+
+	aliens.forEach(alien => drawRectangle(alien, 'red'));
 
     // Update saucers
     saucers.forEach((saucer, i) => {
