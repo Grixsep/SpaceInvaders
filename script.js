@@ -1,4 +1,6 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyD7Q-WC58L-ifvlntZbinIbl_IZo6CCQDg",
@@ -219,6 +221,46 @@ function showGameOverScreen() {
         window.location.href = 'username.html';
     }, 5000);
 }
+
+
+// Add at the beginning of your script:
+let shelters = [];
+for (let i = 0; i < 5; i++) {
+    shelters.push({x: i * canvas.width / 5, y: canvas.height - 200, width: 60, height: 10, holes: []});
+}
+
+// Add at the end of the updateGame function:
+// Drop bombs from random aliens
+if (Math.random() < 0.01 && aliens.length > 0) {
+    let randomAlien = aliens[Math.floor(Math.random() * aliens.length)];
+    bombs.push({ x: randomAlien.x, y: randomAlien.y, width: 10, height: 20, dy: 2 });
+}
+
+// Bomb collisions with shelters
+bombs.forEach((bomb, i) => {
+    shelters.forEach((shelter, j) => {
+        if (bomb.x < shelter.x + shelter.width &&
+            bomb.x + bomb.width > shelter.x &&
+            bomb.y < shelter.y + shelter.height &&
+            bomb.y + bomb.height > shelter.y) {
+            // Add a hole to the shelter and remove the bomb
+            shelters[j].holes.push({x: bomb.x - shelter.x, y: bomb.y - shelter.y, radius: 20});
+            bombs.splice(i, 1);
+        }
+    });
+});
+
+// Draw shelters
+shelters.forEach(shelter => {
+    drawRectangle(shelter, 'grey');
+    shelter.holes.forEach(hole => {
+        ctx.beginPath();
+        ctx.arc(shelter.x + hole.x, shelter.y + hole.y, hole.radius, 0, Math.PI*2, false);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+    });
+});
+
 
 // Start the game
 updateGame();
