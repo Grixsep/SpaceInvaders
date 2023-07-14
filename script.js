@@ -26,8 +26,9 @@ let roundStartingSpeed = baseAlienSpeed;
 let alienDirection = 1;  // 1 means right, -1 means left
 let lastSpeedIncrease = Date.now();
 
+
 let aliens = [];
-let player = { x: canvas.width / 2, y: canvas.height - 50, width: 50, height: 50, speed: 5, lives: 3, score: 0 };
+let player = { x: canvas.width / 2, y: canvas.height - 50, width: 50, height: 50, speed: 5, lives: 3, score: 0, dx: 0 };
 let bullets = [];
 let bombs = [];
 let saucers = [];
@@ -214,6 +215,8 @@ window.addEventListener('keydown', function(e) {
 
 window.addEventListener('keyup', function(e) {
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') player.dx = 0;
+});
+
 });
 
 function showGameOverScreen() {
