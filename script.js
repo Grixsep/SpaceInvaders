@@ -68,15 +68,16 @@ function updateGame() {
     let leftmostAlien = Math.min(...aliens.map(alien => alien.x));
 
     aliens.forEach(alien => {
-        if (alienDirection === 1 && rightmostAlien + baseAlienSpeed > canvas.width) {
-            alienDirection = -1;
-            alien.y += 10;
-        } else if (alienDirection === -1 && leftmostAlien - baseAlienSpeed < 0) {
-            alienDirection = 1;
-            alien.y += 10;
+		if (alienDirection === 1 && rightmostAlien + baseAlienSpeed > canvas.width) {
+			alienDirection = -1;
+			aliens.forEach(alien => alien.y += 10);
+		} else if (alienDirection === -1 && leftmostAlien - baseAlienSpeed < 0) {
+		alienDirection = 1;
+		aliens.forEach(alien => alien.y += 10);
         } else {
             alien.x += baseAlienSpeed * alienDirection;
         }
+		aliens.forEach(alien => alien.x += baseAlienSpeed * alienDirection);
         drawRectangle(alien, 'red');
     });
 
@@ -196,6 +197,12 @@ function updateGame() {
         baseAlienSpeed *= 1.1;
         lastSpeedIncrease = Date.now();
     }
+	// Update player
+	player.x += player.dx;
+	if (player.x < 0) player.x = 0;
+	if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
+	
+	
 
     requestAnimationFrame(updateGame);
 }
