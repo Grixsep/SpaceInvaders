@@ -24,6 +24,7 @@ let round = 1;
 let roundSpeedIncrease = 0.3;
 let roundStartingSpeed = baseAlienSpeed;
 let alienDirection = 1;  // 1 means right, -1 means left
+let lastSpeedIncrease = Date.now();
 
 let aliens = [];
 let player = { x: canvas.width / 2, y: canvas.height - 50, width: 50, height: 50, speed: 5, lives: 3, score: 0 };
