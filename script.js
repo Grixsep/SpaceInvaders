@@ -208,7 +208,7 @@ function updateGame() {
                 bomb.y + bomb.height > shelter.y) {
                 // Calculate hole position based on bomb's tip
                 let holeX = bomb.x + bomb.width / 2 - shelter.x;
-                let holeY = bomb.y - shelter.y - 10;
+                let holeY = bomb.y - shelter.y + 10;
 
                 // Add a hole to the shelter and remove the bomb
                 shelters[j].holes.push({x: holeX, y: holeY, radius: 20});
