@@ -53,6 +53,12 @@ for (let i = 0; i < 8; i++) {
     }
 }
 
+// Add at the beginning of your script:
+let shelters = [];
+for (let i = 0; i < 5; i++) {
+    shelters.push({x: i * canvas.width / 5, y: canvas.height - 200, width: 40, height: 50, holes: []});
+}
+
 function drawRectangle(rect, color) {
     ctx.fillStyle = color;
     ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -218,6 +224,13 @@ function updateGame() {
 		});
 	});
 
+    // Add at the end of the updateGame function:
+    // Drop bombs from random aliens
+    if (Math.random() < 0.5 && aliens.length > 0) {
+        let randomAlien = aliens[Math.floor(Math.random() * aliens.length)];
+        bombs.push({ x: randomAlien.x, y: randomAlien.y, width: 10, height: 20, dy: 2 });
+    }
+
     // Increase alien speed by 10% every 30 seconds
     if (Date.now() - lastSpeedIncrease > 30000) {
         baseAlienSpeed *= 1.1;
@@ -256,21 +269,6 @@ function showGameOverScreen() {
         window.location.href = 'username.html';
     }, 5000);
 }
-
-
-// Add at the beginning of your script:
-let shelters = [];
-for (let i = 0; i < 5; i++) {
-    shelters.push({x: i * canvas.width / 5, y: canvas.height - 200, width: 60, height: 10, holes: []});
-}
-
-// Add at the end of the updateGame function:
-// Drop bombs from random aliens
-if (Math.random() < 0.01 && aliens.length > 0) {
-    let randomAlien = aliens[Math.floor(Math.random() * aliens.length)];
-    bombs.push({ x: randomAlien.x, y: randomAlien.y, width: 10, height: 20, dy: 2 });
-}
-
 
 
 
