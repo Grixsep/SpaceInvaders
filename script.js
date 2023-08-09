@@ -35,11 +35,11 @@ let saucers = [];
 let eliminatedAliens = 0;
 
 // Populate aliens in a 8x6 block with different sizes and scores
-for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 6; j++) {
+for (let j = 0; j < 6; j++) {
+    for (let i = 0; i < 8; i++) {
         let width = 50, score = 50;
-        if (j >= 3 && j < 5) { width = 40; score = 100; }
-        else if (j >= 5) { width = 30; score = 300; }
+        if (j >= 0 && j < 2) { width = 30; score = 300; }
+        else if (j >= 2 && j < 4) { width = 40; score = 100; }
 
         aliens.push({
             x: i * (width + 10),
@@ -56,7 +56,7 @@ for (let i = 0; i < 8; i++) {
 // Add at the beginning of your script:
 let shelters = [];
 for (let i = 0; i < 5; i++) {
-    shelters.push({x: i * canvas.width / 5, y: canvas.height - 200, width: 40, height: 50, holes: []});
+    shelters.push({x: i * canvas.width / 5, y: canvas.height - 150, width: 50, height: 30, holes: []});
 }
 
 function drawRectangle(rect, color) {
@@ -203,12 +203,16 @@ function updateGame() {
 	bombs.forEach((bomb, i) => {
 		shelters.forEach((shelter, j) => {
 			if (bomb.x < shelter.x + shelter.width &&
-				bomb.x + bomb.width > shelter.x &&
-				bomb.y < shelter.y + shelter.height &&
-				bomb.y + bomb.height > shelter.y) {
-				// Add a hole to the shelter and remove the bomb
-				shelters[j].holes.push({x: bomb.x - shelter.x, y: bomb.y - shelter.y, radius: 20});
-				bombs.splice(i, 1);
+                bomb.x + bomb.width > shelter.x &&
+                bomb.y < shelter.y + shelter.height &&
+                bomb.y + bomb.height > shelter.y) {
+                // Calculate hole position based on bomb's tip
+                let holeX = bomb.x + bomb.width / 2 - shelter.x;
+                let holeY = bomb.y - shelter.y;
+
+                // Add a hole to the shelter and remove the bomb
+                shelters[j].holes.push({x: holeX, y: holeY, radius: 20});
+                bombs.splice(i, 1);
 			}
 		});
 	});
