@@ -19,7 +19,7 @@ const db = getFirestore(app);
 let canvas = document.getElementById("gameCanvas");
 let ctx = canvas.getContext("2d");
 
-let baseAlienSpeed = 2;
+let baseAlienSpeed = 1;
 let round = 1;
 let roundSpeedIncrease = 0.3;
 let roundStartingSpeed = baseAlienSpeed;
@@ -208,7 +208,7 @@ function updateGame() {
                 bomb.y + bomb.height > shelter.y) {
                 // Calculate hole position based on bomb's tip
                 let holeX = bomb.x + bomb.width / 2 - shelter.x;
-                let holeY = bomb.y - shelter.y;
+                let holeY = bomb.y - shelter.y - 10;
 
                 // Add a hole to the shelter and remove the bomb
                 shelters[j].holes.push({x: holeX, y: holeY, radius: 20});
@@ -230,7 +230,7 @@ function updateGame() {
 
     // Add at the end of the updateGame function:
     // Drop bombs from random aliens
-    if (Math.random() < 0.5 && aliens.length > 0) {
+    if (Math.random() < 0.1 && aliens.length > 0) {
         let randomAlien = aliens[Math.floor(Math.random() * aliens.length)];
         bombs.push({ x: randomAlien.x, y: randomAlien.y, width: 10, height: 20, dy: 2 });
     }
