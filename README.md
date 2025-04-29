@@ -1,4 +1,5 @@
 # SpaceInvaders
+[![Demo](https://img.shields.io/badge/Demo-Live-green?style=for-the-badge&logo=github)](https://grixsep.github.io/SpaceInvaders/)
 
 > ⚠️ **Archived Project**  
 > This project is no longer being maintained. It was created for learning purposes.
